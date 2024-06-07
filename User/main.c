@@ -8,9 +8,8 @@
 #include "key.h"
 #include "sram.h"
 #include "OLED.h"
+#include "crc.h"
 
-char *text_buf="www.prechin.net";
-#define TEXT_LEN sizeof(text_buf)
 char *OLED_output_start=NULL;
 char *OLED_output_mid=NULL;
 char *OLED_output_end=NULL;
@@ -18,9 +17,9 @@ char *OLED_output_end=NULL;
 //外部内存测试
 void ExSRAM_Cap_Test()
 {
-    u8 writeData = 0xf0, readData;
+  u8 writeData = 0xf0, readData;
 	u16 cap=0;
-    u32 addr;
+  u32 addr;
 	char output[50]; // 用于存储结果的字符数组
 	
 	addr = 1024; //从1KB位置开始算起
@@ -36,7 +35,7 @@ void ExSRAM_Cap_Test()
 		/* 查看读取到的数据是否跟写入数据一样 */
         if(readData == writeData)
         {	
-			printf("%c", readData);
+			//printf("%c", readData);
             cap++;
             addr += 1024;
             readData = 0;
@@ -55,20 +54,16 @@ void ExSRAM_Cap_Test()
             break;
         }     
 	}
-	
 }
 
 int main()
 {	
-	u8 i=0;
-	u8 key;
-	u8 k=0;
-	char *text= NULL;
+	CRC_Implement CRC_Imp;
 	
 	SysTick_Init(168);
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //中断优先级分组分2 组
 	LED_Init();
-	USART1_Init(115200);
+	USART1_Init(921600);
 	KEY_Init();
 	OLED_Init();
 	My_EXTI_Init();
@@ -76,6 +71,7 @@ int main()
 	OLED_ShowString(1,5,"SRAM PUF");
 	FSMC_SRAM_Init();
 	ExSRAM_Cap_Test(); 
+	
 	
 	//显示系统正常运行，其他逻辑全用中断处理
 	while (1)
