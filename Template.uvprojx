@@ -324,7 +324,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>5</v6Lang>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\User;.\Libraries\CMSIS;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\APP\led;.\Public;.\APP\beep;.\APP\key;.\APP\exti;.\APP\time;.\APP\pwm;.\APP\iwdg;.\APP\wwdg;.\APP\input;.\APP\touch_key;.\APP\rng;.\APP\wkup;.\APP\adc;.\APP\adc_temp;.\APP\dac;.\APP\pwm_dac;.\APP\dma;.\APP\rtc;.\APP\24Cxx;.\APP\iic;.\APP\ds18b20;.\APP\hwjs;.\APP\rs485;.\APP\can;.\APP\tftlcd;.\APP\flash;.\APP\spi;.\APP\stm32_flash;.\APP\mpu6050;.\APP\mpu6050\eMPL;.\APP\sram;.\APP\OLED;.\Coder\CRC</IncludePath>
+              <IncludePath>.\User;.\Libraries\CMSIS;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\APP\led;.\Public;.\APP\beep;.\APP\key;.\APP\exti;.\APP\time;.\APP\pwm;.\APP\iwdg;.\APP\wwdg;.\APP\input;.\APP\touch_key;.\APP\rng;.\APP\wkup;.\APP\adc;.\APP\adc_temp;.\APP\dac;.\APP\pwm_dac;.\APP\dma;.\APP\rtc;.\APP\24Cxx;.\APP\iic;.\APP\ds18b20;.\APP\hwjs;.\APP\rs485;.\APP\can;.\APP\tftlcd;.\APP\flash;.\APP\spi;.\APP\stm32_flash;.\APP\mpu6050;.\APP\mpu6050\eMPL;.\APP\sram;.\APP\OLED;.\Coder\CRC;.\Coder\Bit;.\Coder\BCH;.\Coder\GaloisField;.\Coder\BCH-3121</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -581,6 +581,31 @@
               <FileName>crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Coder\CRC\crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>bitman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Coder\Bit\bitman.c</FilePath>
+            </File>
+            <File>
+              <FileName>decoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Coder\BCH\decoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Coder\BCH\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>GF.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Coder\GaloisField\GF.c</FilePath>
+            </File>
+            <File>
+              <FileName>bch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Coder\BCH-3121\bch.c</FilePath>
             </File>
           </Files>
         </Group>

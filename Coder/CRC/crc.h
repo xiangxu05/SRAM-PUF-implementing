@@ -15,4 +15,5 @@ u16 CRC_Process8(CRC_Implement *ctx, u8 data);
 u16 CRC_Final(CRC_Implement *ctx);
 u16 CRC_Calculate(const char *str, u16 poly, u16 initial_crc);
 u16 CRC_Verify(char *str, u16 poly, u16 initial_crc);
+
 #endif

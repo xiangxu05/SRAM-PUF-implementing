@@ -47,3 +47,4 @@
 .\obj\main.o: .\APP\OLED\OLED.h
 .\obj\main.o: .\APP\iic\iic.h
 .\obj\main.o: .\Coder\CRC\crc.h
+.\obj\main.o: .\Coder\BCH-3121\bch.h
