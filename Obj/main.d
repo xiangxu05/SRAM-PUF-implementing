@@ -44,7 +44,10 @@
 .\obj\main.o: .\APP\tftlcd\tftlcd.h
 .\obj\main.o: .\APP\key\key.h
 .\obj\main.o: .\APP\sram\sram.h
+.\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\main.o: .\APP\stm32_flash\stmflash.h
+.\obj\main.o: .\APP\rng\rng.h
+.\obj\main.o: .\Coder\BCH-3121\bch.h
 .\obj\main.o: .\APP\OLED\OLED.h
 .\obj\main.o: .\APP\iic\iic.h
 .\obj\main.o: .\Coder\CRC\crc.h
-.\obj\main.o: .\Coder\BCH-3121\bch.h

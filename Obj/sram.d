@@ -1,9 +1,11 @@
 .\obj\sram.o: APP\sram\sram.c
 .\obj\sram.o: APP\sram\sram.h
+.\obj\sram.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\sram.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\sram.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\sram.o: .\Public\system.h
 .\obj\sram.o: .\User\stm32f4xx.h
 .\obj\sram.o: .\Libraries\CMSIS\core_cm4.h
-.\obj\sram.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\sram.o: .\Libraries\CMSIS\core_cmInstr.h
 .\obj\sram.o: .\Libraries\CMSIS\core_cmFunc.h
 .\obj\sram.o: .\Libraries\CMSIS\core_cmSimd.h
@@ -36,3 +38,7 @@
 .\obj\sram.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\obj\sram.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\obj\sram.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
+.\obj\sram.o: .\APP\stm32_flash\stmflash.h
+.\obj\sram.o: .\APP\rng\rng.h
+.\obj\sram.o: .\Coder\BCH-3121\bch.h
+.\obj\sram.o: .\Public\usart.h

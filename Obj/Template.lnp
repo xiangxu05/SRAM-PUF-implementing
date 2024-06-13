@@ -31,6 +31,8 @@
 ".\obj\sram.o"
 ".\obj\oled.o"
 ".\obj\exti.o"
+".\obj\rng.o"
+".\obj\stmflash.o"
 ".\obj\crc.o"
 ".\obj\bitman.o"
 ".\obj\decoder.o"

@@ -1,8 +1,6 @@
-#include <stdint.h>
 #include "bch.h"
 
-uint32_t bch_encode(const uint32_t cw)
-{
+uint32_t bch_encode(const uint32_t cw){
 	uint32_t bit = 0;
 	uint32_t parity = 0;
 	uint32_t local_cw = cw & 0xFFFFF800;	// mask off BCH parity and even parity
@@ -40,8 +38,7 @@ uint32_t bch_encode(const uint32_t cw)
 // -- Enable printing the output of the ECC process step-by-step
 //#define BCH_REPAIR_DEBUG_STEPBYSTEP
 
-int bch_repair(const uint32_t cw, uint32_t *repaired_cw)
-{
+int bch_repair(const uint32_t cw, uint32_t *repaired_cw){
 	// calculate syndrome
 	// We do this by recalculating the BCH parity bits and XORing them against the received ones
 
@@ -160,4 +157,63 @@ int bch_repair(const uint32_t cw, uint32_t *repaired_cw)
 	return 0;
 }
 
+u32* bch_encoder(const u32 *cw, int n, int *new_size){
+	int bit_count = n * 32;
+  int out_length = (bit_count + 20) / 21;  // 计算新的数组长度
+  *new_size = out_length;
+
+  /*// 分配新的数组
+  u32 *encoded = (u32 *)malloc(out_length * sizeof(u32));
+  if (!encoded) {
+    return NULL; // 分配内存失败
+  }*/
+	u32 encoded[49];
+
+  int bit_index = 0; // 当前处理的比特位置
+  for (int i = 0; i < out_length; ++i) {
+    u32 temp = 0;
+    for (int j = 0; j < 21; ++j) {
+        int word_index = bit_index / 32;     // 对应的 cw 数组的索引
+        int bit_in_word = bit_index % 32;    // 对应的 bit 在 word 中的位置
+        if (bit_index < bit_count) { // 仅在有效比特范围内进行操作
+            temp |= ((cw[word_index] >> (31-bit_in_word)) & 1) << (20-j);
+        }
+        bit_index++;
+    }
+    //encoded[i] = temp << 11; // 高 21 位存储，低 11 位取 0
+		encoded[i] = bch_encode(temp << 11);
+  }
+  return encoded;
+}
+
+void bch_decoder(const u32 *cw, int n, int *out_length, u32 *repaired_cw) {
+    u32 decoded_cw[32];
+    
+    for(int i = 0; i < n; i++) {
+        *out_length=bch_repair(cw[i], &decoded_cw[i]);
+				if(*out_length == -1) return;
+    }
+    
+    int bit_count = n * 21;
+    *out_length = (bit_count + 31) / 32;
+
+    u32 temp = 0;
+    int re_i = 0, re_j = 0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < 21; ++j) {
+            temp |= ((decoded_cw[i] >> (31 - j)) & 1) << (31 - re_j);
+            re_j++;
+            if (re_j > 31) {
+                repaired_cw[re_i] = temp;
+                re_j = 0;
+                re_i++;
+                temp = 0;
+            }
+        }
+    }
+    // 处理剩余的 bits
+    if (re_j > 0) {
+        repaired_cw[re_i] = temp;
+    }
+}
 

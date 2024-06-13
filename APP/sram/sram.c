@@ -1,8 +1,5 @@
 #include "sram.h"
 
-
-
-
 //初始化外部SRAM
 void FSMC_SRAM_Init(void)
 {	
@@ -150,4 +147,81 @@ void FSMC_SRAM_ReadBuffer(u8* pBuffer,u32 ReadAddr,u32 n)
 		ReadAddr++;
 	}  
 } 
- 
+
+void FSMC_SRAM_ReadBuffer_u32(u32* pBuffer, u32 ReadAddr, u32 n)
+{
+    for(; n != 0; n--)  
+    {											    
+        *pBuffer++= *(u32*)(Bank1_SRAM3_ADDR + ReadAddr);    
+        ReadAddr += 4; // 增加 4 个字节
+    }  
+}
+
+void FSMC_SRAM_PUF_Read_With_Size(u32 *data){
+	u32 addr = 1024;
+  for (int i = 0; i < 32; i++) {
+     FSMC_SRAM_ReadBuffer_u32(&data[i], addr, 1);
+     addr += 1024;
+  }
+}
+
+void FSMC_SRAM_PUF_Init(){
+	u32 randoms[21]; //生成与内存等长的随机数
+	u32 sramData[32]; //读内存单元值
+	u32 xorData[32]; //异或后的值
+	u32 *codeData; //编码后的值
+	u32 *new_randoms;
+	int new_length;
+	FSMC_SRAM_PUF_Read_With_Size(sramData);
+
+	for(int i=0;i<21;i++){//取21*32位随机数，编码后刚好是1024位
+		randoms[i]=RNG_Get_RandomNum();
+		//printf("%08x",randoms[i]);
+	}
+	int n = sizeof(randoms) / sizeof(randoms[0]);
+	codeData = bch_encoder(randoms,n,&new_length);
+	
+	for(int i=0;i<32;i++){
+		xorData[i]=codeData[i] ^ sramData[i];
+		//printf("%08x,%08x,%08x\n",codeData[i],xorData[i],*(sramData+i));
+		//printf("%08x",codeData[i]);
+		//printf("%08x",sramData[i]);
+	}
+	
+	//验证解码没问题
+	/*
+	new_randoms = bch_decoder(codeData,new_length,&new_length);
+	for(int i=0;i<21;i++){
+		printf("%08x",*(new_randoms+i));
+	}
+	*/
+	
+	STMFLASH_Write(STM32_FLASH_SAVE_ADDR,(u32*)xorData,new_length);
+
+}
+void FSMC_SRAM_PUF_Output(u32 *out_sramData) {
+  u32 sramData[32]; // 读SRAM单元值
+  u32 data[32];  // 辅助数据值
+  u32 randoms[32]; // 原始随机数
+  u32 new_sramData[32];
+  u32 temp[32];
+  int length=-1;
+  u32 *codeData;
+	while(length==-1){
+    FSMC_SRAM_PUF_Read_With_Size(sramData);
+    STMFLASH_Read(STM32_FLASH_SAVE_ADDR, data, 32);
+
+    for (int i = 0; i < 32; i++) {
+        temp[i] = data[i] ^ sramData[i];
+    }
+
+    bch_decoder(temp, 32, &length, randoms);
+    codeData = bch_encoder(randoms, length, &length);
+
+    for (int i = 0; i < 32; i++) {
+        out_sramData[i] = codeData[i] ^ data[i];
+    }
+	}
+}
+
+

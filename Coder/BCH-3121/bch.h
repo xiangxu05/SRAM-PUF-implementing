@@ -16,6 +16,9 @@
 
 extern "C" {
 #endif
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "system.h"
 /**
  * Calculate the BCH(31,21) and even parity bits for a given codeword.
@@ -55,6 +58,25 @@ uint32_t bch_encode(const uint32_t cw);
  */
 int bch_repair(const uint32_t cw, uint32_t *repaired_cw);
 
+/**
+ * 计算一组u32的BCH(31,21)，每组均包括一位奇偶校验
+ *
+ * @param cw	Codewords，需要编码的值，方法中将code重新组织为21位一组，不足的末尾补零。
+ * @param n 	共有n组。
+ * @return		返回一组编码后的值。
+ */
+u32* bch_encoder(const u32 *cw, int n, int *new_size);
+
+/**
+ * 纠错一组u32的BCH(31,21)
+ *
+ * @param cw	Codewords，需要解码的值。
+ * @param out_length 结果数组长度。
+ * @param n 	共有n组。
+ * @return		NULL if the CW is uncorrectable.
+ *						or repaired_cw.
+ */
+void bch_decoder(const u32 *cw, int n, int *out_length, u32 *repaired_cw);
 
 #ifdef __cplusplus
 }

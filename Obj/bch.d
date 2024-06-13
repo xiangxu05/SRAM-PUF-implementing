@@ -1,6 +1,8 @@
 .\obj\bch.o: Coder\BCH-3121\bch.c
-.\obj\bch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\bch.o: Coder\BCH-3121\bch.h
+.\obj\bch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\bch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\bch.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\obj\bch.o: .\Public\system.h
 .\obj\bch.o: .\User\stm32f4xx.h
 .\obj\bch.o: .\Libraries\CMSIS\core_cm4.h
