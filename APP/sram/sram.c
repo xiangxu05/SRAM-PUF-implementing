@@ -160,8 +160,17 @@ void FSMC_SRAM_ReadBuffer_u32(u32* pBuffer, u32 ReadAddr, u32 n)
 void FSMC_SRAM_PUF_Read_With_Size(u32 *data){
 	u32 addr = 1024;
   for (int i = 0; i < 32; i++) {
-     FSMC_SRAM_ReadBuffer_u32(&data[i], addr, 1);
-     addr += 1024;
+		u8 temp;
+		data[i]=0;
+		for(int j = 0; j < 4; j++){
+			FSMC_SRAM_ReadBuffer(&temp,addr,1);
+			data[i] |= temp;
+			if(j!=3)
+				data[i]=data[i]<<8;
+			addr += 1024;
+		}
+    //FSMC_SRAM_ReadBuffer_u32(&data[i], addr, 1);
+    //addr += 1024;
   }
 }
 
@@ -170,24 +179,26 @@ void FSMC_SRAM_PUF_Init(){
 	u32 sramData[32]; //读内存单元值
 	u32 xorData[32]; //异或后的值
 	u32 *codeData; //编码后的值
-	u32 *new_randoms;
 	int new_length;
 	FSMC_SRAM_PUF_Read_With_Size(sramData);
-
+	
+	printf("Starting Initialize steps\n");
+	printf("Get random numbers:\n");
 	for(int i=0;i<21;i++){//取21*32位随机数，编码后刚好是1024位
 		randoms[i]=RNG_Get_RandomNum();
-		//printf("%08x",randoms[i]);
+		printf("%08x",randoms[i]);
 	}
 	int n = sizeof(randoms) / sizeof(randoms[0]);
 	codeData = bch_encoder(randoms,n,&new_length);
-	
+	printf("\nGet help data:\n");
 	for(int i=0;i<32;i++){
 		xorData[i]=codeData[i] ^ sramData[i];
 		//printf("%08x,%08x,%08x\n",codeData[i],xorData[i],*(sramData+i));
 		//printf("%08x",codeData[i]);
 		//printf("%08x",sramData[i]);
+		printf("%08x",xorData[i]);
 	}
-	
+	printf("\nInitialize program success!");
 	//验证解码没问题
 	/*
 	new_randoms = bch_decoder(codeData,new_length,&new_length);
@@ -203,7 +214,6 @@ void FSMC_SRAM_PUF_Output(u32 *out_sramData) {
   u32 sramData[32]; // 读SRAM单元值
   u32 data[32];  // 辅助数据值
   u32 randoms[32]; // 原始随机数
-  u32 new_sramData[32];
   u32 temp[32];
   int length=-1;
   u32 *codeData;
@@ -217,10 +227,10 @@ void FSMC_SRAM_PUF_Output(u32 *out_sramData) {
 
     bch_decoder(temp, 32, &length, randoms);
     codeData = bch_encoder(randoms, length, &length);
-
     for (int i = 0; i < 32; i++) {
         out_sramData[i] = codeData[i] ^ data[i];
     }
+		
 	}
 }
 

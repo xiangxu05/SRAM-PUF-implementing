@@ -26,7 +26,7 @@ void FSMC_SRAM_ReadBuffer_u32(u32* pBuffer, u32 ReadAddr, u32 n);
 void FSMC_SRAM_PUF_Read_With_Size(u32 *data);
 
 //SRAM PUF初始化操作
-void FSMC_SRAM_PUF_Init();
+void FSMC_SRAM_PUF_Init(void);
 
 //SRAM PUF输出函数
 void FSMC_SRAM_PUF_Output(u32 *sramData);

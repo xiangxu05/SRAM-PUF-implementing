@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F40_41xxx,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\User;.\Libraries\CMSIS;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\APP\led;.\Public;.\APP\beep;.\APP\key;.\APP\exti;.\APP\time;.\APP\pwm;.\APP\iwdg;.\APP\wwdg;.\APP\input;.\APP\touch_key;.\APP\rng;.\APP\wkup;.\APP\adc;.\APP\adc_temp;.\APP\dac;.\APP\pwm_dac;.\APP\dma;.\APP\rtc;.\APP\24Cxx;.\APP\iic;.\APP\ds18b20;.\APP\hwjs;.\APP\rs485;.\APP\can;.\APP\tftlcd;.\APP\flash;.\APP\spi;.\APP\stm32_flash;.\APP\mpu6050;.\APP\mpu6050\eMPL;.\APP\sram;.\APP\OLED;.\Coder\CRC;.\Coder\Bit;.\Coder\BCH;.\Coder\GaloisField;.\Coder\BCH-3121;.\APP\rng;.\APP\stm32_flash</IncludePath>
+              <IncludePath>.\User;.\Libraries\CMSIS;.\Libraries\STM32F4xx_StdPeriph_Driver\inc;.\APP\led;.\Public;.\APP\beep;.\APP\key;.\APP\exti;.\APP\time;.\APP\pwm;.\APP\iwdg;.\APP\wwdg;.\APP\input;.\APP\touch_key;.\APP\rng;.\APP\wkup;.\APP\adc;.\APP\adc_temp;.\APP\dac;.\APP\pwm_dac;.\APP\dma;.\APP\rtc;.\APP\24Cxx;.\APP\iic;.\APP\ds18b20;.\APP\hwjs;.\APP\rs485;.\APP\can;.\APP\tftlcd;.\APP\flash;.\APP\spi;.\APP\stm32_flash;.\APP\mpu6050;.\APP\mpu6050\eMPL;.\APP\sram;.\APP\OLED;.\Coder\CRC;.\Coder\Bit;.\Coder\BCH;.\Coder\GaloisField;.\Coder\BCH-3121;.\APP\rng;.\APP\stm32_flash;.\APP\HASH</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -502,6 +502,21 @@
               <FileType>1</FileType>
               <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_flash.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_hash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hash_md5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_md5.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hash_sha1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_hash_sha1.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -581,6 +596,11 @@
               <FileName>stmflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\APP\stm32_flash\stmflash.c</FilePath>
+            </File>
+            <File>
+              <FileName>hash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\APP\HASH\hash.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -39,4 +39,10 @@
 .\obj\tftlcd.o: .\Public\SysTick.h
 .\obj\tftlcd.o: .\Public\usart.h
 .\obj\tftlcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\tftlcd.o: .\APP\sram\sram.h
+.\obj\tftlcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\tftlcd.o: .\APP\stm32_flash\stmflash.h
+.\obj\tftlcd.o: .\APP\rng\rng.h
+.\obj\tftlcd.o: .\Coder\BCH-3121\bch.h
+.\obj\tftlcd.o: .\Public\usart.h
 .\obj\tftlcd.o: APP\tftlcd\font.h

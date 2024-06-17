@@ -37,3 +37,9 @@
 .\obj\usart.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\obj\usart.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\usart.o: .\APP\sram\sram.h
+.\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\usart.o: .\APP\stm32_flash\stmflash.h
+.\obj\usart.o: .\APP\rng\rng.h
+.\obj\usart.o: .\Coder\BCH-3121\bch.h
+.\obj\usart.o: .\Public\usart.h

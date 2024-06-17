@@ -12,8 +12,11 @@
 #include "bch.h"
 #include "rng.h"
 #include "stmflash.h"
+//#include "hash.h"
 //#include "encoder.h"
 //#include "GF.h"
+
+#define BUFFER_SIZE 256
 
 /* 存储功能测试用
 #define STM32_FLASH_SAVE_ADDR 0x080E0000
@@ -33,6 +36,11 @@
 char *OLED_output_start=NULL;
 char *OLED_output_mid=NULL;
 char *OLED_output_end=NULL;
+
+volatile int status=0;
+volatile u8 inputFlag=0;
+volatile u8 buffer[BUFFER_SIZE];
+volatile u16 bufferIndex = 0;
 
 //外部内存测试
 void ExSRAM_Cap_Test(){
@@ -72,6 +80,14 @@ void ExSRAM_Cap_Test(){
 	}
 }
 
+uint32_t calculate_length(uint8_t *input) {
+    uint32_t length = 0;
+    while (input[length] != '\0') {
+        length++;
+    }
+    return length;
+}
+
 void System_Init(){
 	SysTick_Init(168);
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //中断优先级分组分2 组
@@ -101,11 +117,23 @@ void assert_equal(uint32_t expected, uint32_t actual, const char *message) {
 int main()
 {	
 	System_Init();
+	
+	uint8_t data[] = "Hello, world!";
+  uint8_t hash[32];
+	
+	uint32_t length = calculate_length(data);
+	HASH_SHA256(data, length, hash);
+	for(int i =0 ; i<32;i++){
+		printf("%08x",hash[i]);
+	}
+	
 	while (1)
 	{
 		led1=!led1;
 		delay_ms(100);
 	}
+
+	
 	/* //SRAM PUF基本功能测试
 	u32 data[32];
 	

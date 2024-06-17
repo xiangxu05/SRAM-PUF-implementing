@@ -42,3 +42,4 @@
 .\obj\sram.o: .\APP\rng\rng.h
 .\obj\sram.o: .\Coder\BCH-3121\bch.h
 .\obj\sram.o: .\Public\usart.h
+.\obj\sram.o: .\APP\sram\sram.h

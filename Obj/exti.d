@@ -42,5 +42,11 @@
 .\obj\exti.o: .\APP\key\key.h
 .\obj\exti.o: .\Public\usart.h
 .\obj\exti.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\exti.o: .\APP\sram\sram.h
+.\obj\exti.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\obj\exti.o: .\APP\stm32_flash\stmflash.h
+.\obj\exti.o: .\APP\rng\rng.h
+.\obj\exti.o: .\Coder\BCH-3121\bch.h
+.\obj\exti.o: .\Public\usart.h
 .\obj\exti.o: .\APP\OLED\OLED.h
 .\obj\exti.o: .\APP\iic\iic.h
