@@ -48,5 +48,7 @@
 .\obj\exti.o: .\APP\rng\rng.h
 .\obj\exti.o: .\Coder\BCH-3121\bch.h
 .\obj\exti.o: .\Public\usart.h
+.\obj\exti.o: .\Coder\sha512\sha512.h
+.\obj\exti.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\obj\exti.o: .\APP\OLED\OLED.h
 .\obj\exti.o: .\APP\iic\iic.h

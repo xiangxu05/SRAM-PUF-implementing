@@ -44,3 +44,5 @@
 .\obj\gf.o: .\APP\rng\rng.h
 .\obj\gf.o: .\Coder\BCH-3121\bch.h
 .\obj\gf.o: .\Public\usart.h
+.\obj\gf.o: .\Coder\sha512\sha512.h
+.\obj\gf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

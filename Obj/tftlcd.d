@@ -45,4 +45,6 @@
 .\obj\tftlcd.o: .\APP\rng\rng.h
 .\obj\tftlcd.o: .\Coder\BCH-3121\bch.h
 .\obj\tftlcd.o: .\Public\usart.h
+.\obj\tftlcd.o: .\Coder\sha512\sha512.h
+.\obj\tftlcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\obj\tftlcd.o: APP\tftlcd\font.h

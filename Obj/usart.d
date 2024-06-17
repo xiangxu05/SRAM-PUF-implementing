@@ -43,3 +43,5 @@
 .\obj\usart.o: .\APP\rng\rng.h
 .\obj\usart.o: .\Coder\BCH-3121\bch.h
 .\obj\usart.o: .\Public\usart.h
+.\obj\usart.o: .\Coder\sha512\sha512.h
+.\obj\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

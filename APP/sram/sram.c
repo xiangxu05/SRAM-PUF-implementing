@@ -162,15 +162,15 @@ void FSMC_SRAM_PUF_Read_With_Size(u32 *data){
   for (int i = 0; i < 32; i++) {
 		u8 temp;
 		data[i]=0;
-		for(int j = 0; j < 4; j++){
+		for(int j = 0; j < 32; j++){
 			FSMC_SRAM_ReadBuffer(&temp,addr,1);
-			data[i] |= temp;
+			data[i] ^= temp;
 			if(j!=3)
-				data[i]=data[i]<<8;
+				data[i]=data[i]<<1;
 			addr += 1024;
 		}
     //FSMC_SRAM_ReadBuffer_u32(&data[i], addr, 1);
-    //addr += 1024;
+    //addr += 2048;
   }
 }
 

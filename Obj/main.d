@@ -46,10 +46,11 @@
 .\obj\main.o: .\APP\rng\rng.h
 .\obj\main.o: .\Coder\BCH-3121\bch.h
 .\obj\main.o: .\Public\usart.h
+.\obj\main.o: .\Coder\sha512\sha512.h
+.\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\obj\main.o: .\APP\exti\exti.h
 .\obj\main.o: .\APP\tftlcd\tftlcd.h
 .\obj\main.o: .\APP\key\key.h
 .\obj\main.o: .\APP\OLED\OLED.h
 .\obj\main.o: .\APP\iic\iic.h
 .\obj\main.o: .\Coder\CRC\crc.h
-.\obj\main.o: .\APP\HASH\hash.h

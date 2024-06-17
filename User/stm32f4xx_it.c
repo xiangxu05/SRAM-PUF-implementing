@@ -60,7 +60,8 @@ void NMI_Handler(void)
   * @retval None
   */
 void HardFault_Handler(void)
-{
+{	
+	//NVIC_SystemReset();//自己写的让其返回主函数！
   /* Go to infinite loop when Hard Fault exception occurs */
   while (1)
   {

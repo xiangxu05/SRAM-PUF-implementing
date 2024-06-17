@@ -43,3 +43,5 @@
 .\obj\sram.o: .\Coder\BCH-3121\bch.h
 .\obj\sram.o: .\Public\usart.h
 .\obj\sram.o: .\APP\sram\sram.h
+.\obj\sram.o: .\Coder\sha512\sha512.h
+.\obj\sram.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

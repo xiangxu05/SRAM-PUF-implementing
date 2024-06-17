@@ -43,6 +43,7 @@
 ".\obj\encoder.o"
 ".\obj\gf.o"
 ".\obj\bch.o"
+".\obj\sha512.o"
 --library_type=microlib --strict --scatter ".\Obj\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
