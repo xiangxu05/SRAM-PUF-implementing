@@ -1,0 +1,5 @@
+AT_default 默认的回传模式
+AT_init 初始化PUF/未初始化时辅助数据为重复值
+AT_source 查看helpdata值
+AT_strongSram 任意位输入对应1024位输出，类似强PUF
+AT_sourceSram 选取的SRAM单元位置上的原始值
