@@ -4,18 +4,7 @@
 说明:	
 ******************************************************/
 #include "task_usb_recv.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "main.h"
-#include "cmsis_os.h"
-#include "cmsis_armcc.h"
-#include "stdio.h"
-#include "w25xx_SPI.h"
-#include "sram.h"
-#include "spi.h"
-#include "usbd_cdc_if.h"
-#include <ctype.h>  // 用于 isdigit 函数
-#include <limits.h> // 用于 INT_MAX 和 INT_MIN
+
 
 static unsigned char status = 5;
 static int flag = 0;
@@ -85,6 +74,7 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
     } else if (strncmp((const char*)command, AT_INIT, len) == 0) {
         output("执行PUF初始化操作\n");
         *status = STATUS_INIT;  // 设置 status 为 1
+				SPI_SRAM_PUF_Init();
     } else if (strncmp((const char*)command, AT_SOURCE, len) == 0) {
         output("查看helpdata值\n");
         *status = STATUS_SOURCE;  // 设置 status 为 2

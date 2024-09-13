@@ -6,7 +6,6 @@
 #include "gpio.h"
 #include "stdio.h"
 
-
 void sram_IO_input(void)
 {
 
@@ -290,12 +289,57 @@ void sram_read_random(int p, unsigned short* buf,int len,int time)
 		SRAM_PWR_H();
 	  MX_GPIO_Init();
 
-		sram_read(0, buf,len);
+		sram_read(p, buf,len);
 		for(int i = 0;i<len;i++){
 			printf("%d\r\n",(int)buf[i]);
 		}
 		
+}
 
+//SRAM PUF初始化操作
+void SPI_SRAM_PUF_Init(void){
+	unsigned short tmp_randoms[42]; //生成与内存等长的随机数
+	unsigned short tmp_sramData[64]; //读内存单元值
+	uint32_t randoms[21];//取21*32位随机数，编码后刚好是1024位
+	uint32_t new_randoms[32];
+	uint32_t sramData[32];
+	uint32_t xorData[32]; //异或后的值
+	uint32_t codeData[32]; //编码后的值
+	int new_length;
+	char massage[100];
+	output("Starting Initialize steps");
+	//output("Get random numbers:\n");
+	
+	sram_read_random(0, tmp_sramData,sizeof(tmp_sramData)/sizeof(tmp_sramData[0]),DELAY_TIME);
+	sram_read_random(100, tmp_randoms,sizeof(tmp_randoms)/sizeof(tmp_randoms[0]),DELAY_TIME);
+	for(int i = 0; i<sizeof(tmp_sramData)/sizeof(tmp_sramData[0]);i=i+2){
+		sramData[i/2] = (uint32_t)tmp_sramData[i]<<16 | (uint32_t)tmp_sramData[i+1];
+	}
+	for(int i = 0; i<sizeof(tmp_randoms)/sizeof(tmp_randoms[0]);i=i+2){
+		randoms[i/2] = (uint32_t)tmp_randoms[i]<<16 | (uint32_t)tmp_randoms[i+1];
+	}
+	
+	int n = sizeof(randoms) / sizeof(randoms[0]);
+	bch_encoder(randoms,n,&new_length,codeData);
+	bch_decoder(codeData,new_length,&new_length,new_randoms);
+	
+	output("Get help data:\n");
+	massage[0] = 0;
+	for(int i=0;i<32;i++){
+		xorData[i]=codeData[i] ^ sramData[i];
+		//printf("%08x,%08x,%08x\n",codeData[i],xorData[i],*(sramData+i));
+		//printf("%08x",codeData[i]);
+		//printf("%08x",sramData[i]);
+		sprintf(massage + strlen((const char*)massage),"%08x",(int)xorData[i]);
+	}
+	usb_send((unsigned char*)massage,strlen((const char*)massage));
+	//output("\nInitialize program success!");
+	
+	//验证解码没问题
+	if(randoms[0] == new_randoms[0]){
+		output("\nInitialize program success!");
+	}
+	//STMFLASH_Write(STM32_FLASH_SAVE_ADDR,(u32*)xorData,new_length);
 }
 
 	

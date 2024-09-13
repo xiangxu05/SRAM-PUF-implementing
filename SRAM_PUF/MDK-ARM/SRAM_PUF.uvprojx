@@ -539,6 +539,16 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>rng.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\rng.c</FilePath>
+            </File>
+            <File>
+              <FileName>bch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\bch.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
