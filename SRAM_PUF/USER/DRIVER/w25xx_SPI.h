@@ -214,3 +214,12 @@ void W25_Flash_Write_NoCheck(uint32_t WriteAddr, uint8_t* pBuffer, uint16_t NumB
 				   具有自动换页功能,该函数带擦除操作!
 *******************************************************************************/ 		 
 void W25_Flash_Write(uint32_t WriteAddr, uint8_t* pBuffer, uint16_t NumByteToWrite); 
+
+ /*******************************************************************************
+ * Function Name : W25_Flash_test
+ * Description : 写SPI FLASH为全0，并读出，以测试FLASH功能是否正常
+ * Input : None
+ * Output : 状态，-1失败，0成功
+ * Note : None
+ *******************************************************************************/ 	
+ int W25_Flash_test();

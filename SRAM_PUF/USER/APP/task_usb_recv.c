@@ -76,7 +76,15 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
         *status = STATUS_INIT;  // 设置 status 为 1
 				SPI_SRAM_PUF_Init();
     } else if (strncmp((const char*)command, AT_SOURCE, len) == 0) {
-        output("查看helpdata值\n");
+			output("查看helpdata值:\n");
+			uint32_t tmp[32];
+			W25_Flash_Read(0,(uint8_t *) tmp , 4*32);
+			char buf[4*32];
+			buf[0] = 0;
+			for(int i = 0 ; i<32;i++){
+				sprintf(buf + strlen((const char*)buf),"%08x",tmp[i]);
+			}
+			usb_send((unsigned char*)buf,strlen((const char*)buf));
         *status = STATUS_SOURCE;  // 设置 status 为 2
     } else if (strncmp((const char*)command, AT_STRONG_SRAM, len) == 0) {
         output("执行强PUF模式，输出1024位\n");
@@ -122,9 +130,11 @@ void task_usb_rx(void const * argument)
 							break;
 						}
 						case 3:{
+							SPI_SRAM_PUF_STRONG(usb_data.buf,usb_data.len);
 							break;
 						}
 						case 4:{
+							sram_read_random(0, buf_random,sizeof(buf_random)/sizeof(buf_random[0]),DELAY_TIME);
 							break;
 						}
 						case 5:{

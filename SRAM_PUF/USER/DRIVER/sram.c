@@ -306,7 +306,8 @@ void SPI_SRAM_PUF_Init(void){
 	uint32_t xorData[32]; //异或后的值
 	uint32_t codeData[32]; //编码后的值
 	int new_length;
-	char massage[100];
+	char massage[128];
+	memset(massage, 0, sizeof(massage));
 	output("Starting Initialize steps");
 	//output("Get random numbers:\n");
 	
@@ -324,22 +325,67 @@ void SPI_SRAM_PUF_Init(void){
 	bch_decoder(codeData,new_length,&new_length,new_randoms);
 	
 	output("Get help data:\n");
-	massage[0] = 0;
 	for(int i=0;i<32;i++){
 		xorData[i]=codeData[i] ^ sramData[i];
-		//printf("%08x,%08x,%08x\n",codeData[i],xorData[i],*(sramData+i));
-		//printf("%08x",codeData[i]);
-		//printf("%08x",sramData[i]);
 		sprintf(massage + strlen((const char*)massage),"%08x",(int)xorData[i]);
 	}
 	usb_send((unsigned char*)massage,strlen((const char*)massage));
-	//output("\nInitialize program success!");
 	
 	//验证解码没问题
 	if(randoms[0] == new_randoms[0]){
 		output("\nInitialize program success!");
 	}
-	//STMFLASH_Write(STM32_FLASH_SAVE_ADDR,(u32*)xorData,new_length);
+	
+	W25_FLASH_Erase(1,0);
+	W25_Flash_Write(0,(uint8_t *)xorData,128);
+	uint32_t tmp[32];
+	tmp[0] = 0;
+	W25_Flash_Read(0,(uint8_t *) tmp , 128);
+	if(tmp[0] == xorData[0])
+		output("Successful store helpData!");
+	else
+		output("Failure occurred : store program failed!");
+}
+
+//读取SRAM PUF稳定输出
+void SPI_SRAM_PUF_Stable_Output(uint32_t *Data){
+	unsigned short tmp_sramData[64]; //读内存单元值
+	uint32_t sramData[32];
+	uint32_t tmp[32];
+	uint32_t xorData[32];
+	
+	sram_read_random(0, tmp_sramData,sizeof(tmp_sramData)/sizeof(tmp_sramData[0]),DELAY_TIME);
+	for(int i = 0; i<sizeof(tmp_sramData)/sizeof(tmp_sramData[0]);i=i+2){
+		sramData[i/2] = (uint32_t)tmp_sramData[i]<<16 | (uint32_t)tmp_sramData[i+1];
+	}
+	W25_Flash_Read(0,(uint8_t *) tmp , 128);
+	for(int i=0;i<32;i++){
+		xorData[i]=tmp[i] ^ sramData[i];
+	}
+	//bch_decoder(codeData,new_length,&new_length,new_randoms);
+	
+}
+	
+//输出强PUF功能
+void SPI_SRAM_PUF_STRONG(unsigned char* Messages,int len){
+	SHA512_CTX ctx;
+	uint8_t hash[SHA512_BLOCK_SIZE];
+	uint32_t hash1[16];
+  // 计算前512位的哈希值
+	sha512_init(&ctx);
+  sha512_update(&ctx, Messages, len);
+  sha512_final(&ctx, hash);
+	uint32_t data[32];
+		
+  SPI_SRAM_PUF_Stable_Output(data);  // 读稳定输出
+	output("Response:\n");
+	for (int i = 0; i < 16; i++) {
+		hash1[i] = ((uint32_t)hash[4*i] << 24) | ((uint32_t)hash[4*i+1] << 16) |
+		((uint32_t)hash[4*i+2] << 8) | (uint32_t)hash[4*i+3];
+	}
+  for (int i = 0; i < 32; i++) {
+    printf("%08x", data[i]^hash1[i%16]);
+  }
 }
 
 	

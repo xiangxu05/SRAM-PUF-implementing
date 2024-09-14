@@ -34,6 +34,7 @@ extern "C" {
 #include "FreeRTOS.h" 
 #include "task.h" 
 #include "semphr.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -136,10 +137,10 @@ void Error_Handler(void);
 #define	W25_SPI_FLASH_CSH() HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_SET)  //选中FLASH	
 #define	W25_SPI_FLASH_CSL() HAL_GPIO_WritePin(FLASH_CS_GPIO_Port,FLASH_CS_Pin,GPIO_PIN_RESET)  //取消选中FLASH	
 
-#define	W25_SPI_FLASH_WPH() HAL_GPIO_WritePin(FLASH_WP_GPIO_Port,FLASH_WP_Pin,GPIO_PIN_SET)  
+#define	W25_SPI_FLASH_WPH() HAL_GPIO_WritePin(FLASH_WP_GPIO_Port,FLASH_WP_Pin,GPIO_PIN_SET)  //flash写引脚拉高
 #define	W25_SPI_FLASH_WPL() HAL_GPIO_WritePin(FLASH_WP_GPIO_Port,FLASH_WP_Pin,GPIO_PIN_RESET) 
 
-#define	W25_SPI_FLASH_RSTH() HAL_GPIO_WritePin(FLASH_RST_GPIO_Port,FLASH_RST_Pin,GPIO_PIN_SET)  
+#define	W25_SPI_FLASH_RSTH() HAL_GPIO_WritePin(FLASH_RST_GPIO_Port,FLASH_RST_Pin,GPIO_PIN_SET)  //重置引脚拉高
 #define	W25_SPI_FLASH_RSTL() HAL_GPIO_WritePin(FLASH_RST_GPIO_Port,FLASH_RST_Pin,GPIO_PIN_RESET)  	
 
 #define W25_Handle hspi2

@@ -435,3 +435,19 @@ void W25_Flash_Write(uint32_t WriteAddr, uint8_t* pBuffer, uint16_t NumByteToWri
 	}	 
 }
 
+int W25_Flash_test(){
+	int status = 0; 
+	unsigned char Buffer[64];
+	W25_Flash_Read(0,Buffer,64);
+	W25_FLASH_Erase(3,0); //×öÈ«ÅÌ²Á³ý
+	for(int i = 0 ; i < 64 ; i++){
+		Buffer[i] = '0';
+	}
+	W25_Flash_Write_NoCheck(0,Buffer,64);
+	W25_Flash_Read(0,Buffer,64);
+	for(int i = 0 ; i < 64 ; i++){
+		if(Buffer[i] != '0')
+			status = -1 ;
+	}
+	return status;
+ }

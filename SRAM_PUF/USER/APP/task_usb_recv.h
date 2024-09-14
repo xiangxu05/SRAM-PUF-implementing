@@ -28,6 +28,7 @@
 #define STATUS_SOURCE_SRAM  4
 #define STATUS_DELAY        5
 #define STATUS_UNKNOWN      255  // Î´ÖªÃüÁî
+#define DELAY_TIME 100
 
 extern void task_usb_rx(void const * argument);
 extern void output(const char* str);

@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include "task_usb_recv.h"
 #include "bch.h"
+#include "w25xx_SPI.h"
+#include "sha512.h"
 
 #define DELAY_TIME 100
 void sram_pin_init(void);
@@ -16,6 +18,12 @@ void SPI_SRAM_PUF_Init(void);
 
 //SRAM PUF输出函数
 void SPI_SRAM_PUF_Output(uint32_t *sramData);
+
+//读取SRAM PUF稳定输出
+void SPI_SRAM_PUF_Stable_Output(uint32_t *Data);
+
+//Strong PUF模式
+void SPI_SRAM_PUF_STRONG(unsigned char* Messages,int len);
 #endif
 
 

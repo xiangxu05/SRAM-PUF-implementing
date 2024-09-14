@@ -27,7 +27,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "task_usb_recv.h"
 /* USER CODE BEGIN Includes */
 struct urt_aRxBuffer_t{
 	unsigned char rx_buf[512];

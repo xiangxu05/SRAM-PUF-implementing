@@ -176,7 +176,8 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 int fputc(int ch, FILE *f)
 { 	
 	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
-	USART1->DR = (char) ch;       
+	USART1->DR = (char) ch;
+	usb_send((uint8_t)ch,1);
 	return ch;
 }
 
