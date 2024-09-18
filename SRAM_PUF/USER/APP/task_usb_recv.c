@@ -9,7 +9,7 @@
 static unsigned char status = 5;
 static int flag = 0;
 struct usb_aRxBuffer_t usb_data;
-static unsigned short buf_random[512];
+static unsigned short buf_random[64];
 void usb_send(uint8_t* Buf, uint16_t Len)
 {
 		while(CDC_Transmit_FS(Buf, Len) == USBD_BUSY)
@@ -70,7 +70,8 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
 		// 匹配指令集中的命令
     if (strncmp((const char*)command, AT_DEFAULT, len) == 0) {
         *status = STATUS_DEFAULT;  // 设置 status 为 0
-				output("默认回传模式\n");
+				//output("默认回传模式\n");
+				printf("默认回传模式\n");//两种方法均可
     } else if (strncmp((const char*)command, AT_INIT, len) == 0) {
         output("执行PUF初始化操作\n");
         *status = STATUS_INIT;  // 设置 status 为 1
@@ -91,6 +92,7 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
         *status = STATUS_STRONG_SRAM;  // 设置 status 为 3
     } else if (strncmp((const char*)command, AT_SOURCE_SRAM, len) == 0) {
         output("获取SRAM单元位置上的原始值\n");
+				sram_source_Sram(0, buf_random,sizeof(buf_random)/sizeof(buf_random[0]),DELAY_TIME);
         *status = STATUS_SOURCE_SRAM;  // 设置 status 为 4
     } else if (strncmp((const char*)command, AT_DELAY, strlen(AT_DELAY)) == 0) {
         output("时延测试模式\n");
@@ -134,7 +136,6 @@ void task_usb_rx(void const * argument)
 							break;
 						}
 						case 4:{
-							sram_read_random(0, buf_random,sizeof(buf_random)/sizeof(buf_random[0]),DELAY_TIME);
 							break;
 						}
 						case 5:{

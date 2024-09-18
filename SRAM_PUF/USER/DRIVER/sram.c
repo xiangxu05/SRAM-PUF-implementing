@@ -258,7 +258,7 @@ void sram_read(int p, unsigned short* buf,int len)
 {
 		sram_IO_input();
 		for(int i = 0;i<len ;i++){
-			buf[i] =  read_data( p+i );
+			buf[i] =  read_data( p+((i*8)+3)%1024 );
 		}
 }
 
@@ -290,9 +290,31 @@ void sram_read_random(int p, unsigned short* buf,int len,int time)
 	  MX_GPIO_Init();
 
 		sram_read(p, buf,len);
+		//for(int i = 0;i<len;i++){
+			//printf("%d\r\n",(int)buf[i]);
+		//}
+		SRAM_PWR_L();
+		sram_GPIO_DeInit();
+}
+
+//这个方法用来输出源值
+void sram_source_Sram(int p, unsigned short* buf,int len,int time)
+{
+		//sram断电
+		SRAM_PWR_L();
+		sram_GPIO_DeInit();
+		osDelay(time);
+	
+		//sram上电
+		SRAM_PWR_H();
+	  MX_GPIO_Init();
+		
+		sram_read(p, buf,len);
 		for(int i = 0;i<len;i++){
-			printf("%d\r\n",(int)buf[i]);
+			printf("%d",(int)buf[i]);
 		}
+		SRAM_PWR_L();
+		sram_GPIO_DeInit();
 		
 }
 
@@ -353,17 +375,22 @@ void SPI_SRAM_PUF_Stable_Output(uint32_t *Data){
 	uint32_t sramData[32];
 	uint32_t tmp[32];
 	uint32_t xorData[32];
+	uint32_t codeData[32];
+	int new_length = -1;
 	
 	sram_read_random(0, tmp_sramData,sizeof(tmp_sramData)/sizeof(tmp_sramData[0]),DELAY_TIME);
 	for(int i = 0; i<sizeof(tmp_sramData)/sizeof(tmp_sramData[0]);i=i+2){
 		sramData[i/2] = (uint32_t)tmp_sramData[i]<<16 | (uint32_t)tmp_sramData[i+1];
-	}
-	W25_Flash_Read(0,(uint8_t *) tmp , 128);
+	}//读新的sram值
+	W25_Flash_Read(0,(uint8_t *) tmp , 128);//读helpData
 	for(int i=0;i<32;i++){
-		xorData[i]=tmp[i] ^ sramData[i];
+		xorData[i]=tmp[i] ^ sramData[i];//可能存在错误的随机值
 	}
-	//bch_decoder(codeData,new_length,&new_length,new_randoms);
-	
+	bch_decoder(xorData,32,&new_length,codeData);//纠正后的随机值
+	bch_encoder(codeData,32,&new_length,xorData);//重新编码存在xorData中
+	for (int i = 0; i < 32; i++) {
+        Data[i] = codeData[i] ^ xorData[i];
+    }
 }
 	
 //输出强PUF功能

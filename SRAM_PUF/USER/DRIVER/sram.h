@@ -19,6 +19,9 @@ void SPI_SRAM_PUF_Init(void);
 //SRAM PUF输出函数
 void SPI_SRAM_PUF_Output(uint32_t *sramData);
 
+//选取的SRAM单元位置上的原始值
+void sram_source_Sram(int p, unsigned short* buf,int len,int time);
+	
 //读取SRAM PUF稳定输出
 void SPI_SRAM_PUF_Stable_Output(uint32_t *Data);
 

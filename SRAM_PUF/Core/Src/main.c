@@ -97,7 +97,7 @@ int main(void)
   MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_SPI2_Init();
-
+	//MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 	
 	W25_SPI_FLASH_WPH();
@@ -106,7 +106,6 @@ int main(void)
 	SRAM_PWR_H();
 	usart1Msg	= xQueueCreate(2,sizeof(struct urt_aRxBuffer_t));
 	usbMsg	=   xQueueCreate(2,sizeof(struct usb_aRxBuffer_t));
-	
 	/*
 	printf("\r\nAPP version************************   \r\n");
 	printf("%s",version_data);
