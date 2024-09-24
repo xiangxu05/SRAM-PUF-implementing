@@ -41,6 +41,7 @@ int convert_usb_data_to_int(struct usb_aRxBuffer_t* usb_data, int* result)
             return -1; // 溢出，返回错误
         }else if(num>1000){
 						num = 1000;
+						*result = (int)num;
 					return 0;
 				}
 
@@ -97,7 +98,11 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
     } else if (strncmp((const char*)command, AT_DELAY, strlen(AT_DELAY)) == 0) {
         output("时延测试模式\n");
         *status = STATUS_DELAY;  // 设置 status 为 5
-    } else {
+    } else if(strncmp((const char*)command, AT_FILE, strlen(AT_FILE)) == 0){
+				output("文件管理模式\n");
+				output("说明：此模式输入格式为(用户标签，文件名标签)，输出对应的KEY");
+				*status = STATUS_FILE;
+		}else {
 				flag = 0;
         // 如果命令不匹配任何已知指令
         //output("未知命令\n");
@@ -154,6 +159,10 @@ void task_usb_rx(void const * argument)
 								sprintf(buf_random_str + strlen((const char*)buf_random_str),"%04x",(int)buf_random[i]);
 							}
 							usb_send((unsigned char*)buf_random_str,strlen((const char*)buf_random_str));
+							break;
+						}
+						case 6:{
+							SPI_SRAM_PUF_FILE(usb_data.buf,usb_data.len);
 							break;
 						}
 						default:

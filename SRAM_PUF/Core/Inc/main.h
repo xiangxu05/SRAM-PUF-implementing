@@ -151,11 +151,24 @@ void Error_Handler(void);
 #define	SRAM_CS_H() HAL_GPIO_WritePin(SRAM_CS_GPIO_Port,SRAM_CS_Pin,GPIO_PIN_SET)  //选中FLASH	
 #define	SRAM_CS_L() HAL_GPIO_WritePin(SRAM_CS_GPIO_Port,SRAM_CS_Pin,GPIO_PIN_RESET)  //取消选中FLASH	
 
-
+#define userInfoStartAdd 520;//用int类型表示
+#define fileInfoStartADD 4096;
+#define MAXUSERADD 4096;
+#define MAXFILEADD 268435456;//用int类型表示的256MB最大地址
 
 extern QueueHandle_t   usart1Msg;
 extern QueueHandle_t   usbMsg;
 
+struct userInfo{
+	uint32_t userLabel[4];
+	uint32_t firstAdd;
+};
+
+struct fileInfo{
+	uint32_t fileLabel[4];
+	uint32_t helpData[32];
+	uint32_t nextAdd;
+};
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -20,6 +20,7 @@
 #define AT_STRONG_SRAM  "AT_strongSram\r\n"
 #define AT_SOURCE_SRAM  "AT_sourceSram\r\n"
 #define AT_DELAY        "AT_delay\r\n"
+#define AT_FILE        "AT_File\r\n"
 
 #define STATUS_DEFAULT      0
 #define STATUS_INIT         1
@@ -27,6 +28,7 @@
 #define STATUS_STRONG_SRAM  3
 #define STATUS_SOURCE_SRAM  4
 #define STATUS_DELAY        5
+#define STATUS_FILE        6
 #define STATUS_UNKNOWN      255  // Î´ÖªÃüÁî
 #define DELAY_TIME 100
 

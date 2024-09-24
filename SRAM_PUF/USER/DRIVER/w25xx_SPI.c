@@ -331,9 +331,19 @@ void W25_FLASH_Erase(uint8_t Type, uint32_t EraseAddr)
 			break;
 	  	default: break;
 	}
-	
+	int wait=0;
 	//器件忙等待
-	while(W25_Flash_ReadSR()&W25XFLASH_REG_BIT_BUSY);	//器件忙，等待
+	if(Type == W25X_FLASH_ERASE_CHIP)
+		output("\r\nWaiting for Flash Erase!\r\n");
+	while(W25_Flash_ReadSR()&W25XFLASH_REG_BIT_BUSY){//器件忙，等待
+		if(Type == W25X_FLASH_ERASE_CHIP){
+			wait++;
+			if(wait == 1000000){
+				output("\r\nWaiting for Flash Erase!\r\n");
+				wait = 0;
+			}
+		}
+	}	
 }
 
 /*******************************************************************************

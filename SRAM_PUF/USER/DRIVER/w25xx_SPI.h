@@ -14,6 +14,7 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 #include "main.h"
+#include "task_usb_recv.h"
 #define W25_FLASH_SIZE	(1024*1024*16)
 
 #define W25X10  0XEF10 		//128K字节
@@ -205,7 +206,7 @@ void W25_Flash_Write_NoCheck(uint32_t WriteAddr, uint8_t* pBuffer, uint16_t NumB
  /*******************************************************************************
 * Function Name  : W25_Flash_Write
 * Description    : 写SPI FLASH,在指定地址开始写入指定长度的数据
-* Input          : WriteAddr:开始写入的地址(24bit)
+* Input          : WriteAddr:开始写入的地址(24bit)，此处单位是B
 				   pBuffer:数据存储区
 				   NumByteToWrite:要写入的字节数(最大65535)
 * Output         : None
@@ -223,3 +224,23 @@ void W25_Flash_Write(uint32_t WriteAddr, uint8_t* pBuffer, uint16_t NumByteToWri
  * Note : None
  *******************************************************************************/ 	
  int W25_Flash_test();
+ 
+ /*******************************************************************************
+ * Function Name : W25_Flash_Find_User
+ * Description : 找到对应的用户，如果找到则返回用户地址，找不到则在新位置创建
+								一个新用户，接着返回用户地址。在内存不足时返回-1
+ * Input : 用户标签uint32_t[4]
+ * Output : 状态，0失败，成功uint32_t ADD
+ * Note : None
+ *******************************************************************************/ 
+ uint32_t W25_Flash_Find_User(uint32_t Label[4]);
+ 
+ /*******************************************************************************
+ * Function Name : W25_Flash_Find_File
+ * Description : 找到对应的文件，如果找到则返回文件地址，找不到则在新位置创建
+								一个新文件，接着返回文件地址。在内存不足时返回-1
+ * Input : 文件地址uint32_t firstADD
+ * Output : 状态，0失败，成功uint32_t ADD
+ * Note : None
+ *******************************************************************************/ 
+ uint32_t W25_Flash_Find_File(uint32_t firstADD);

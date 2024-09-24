@@ -27,6 +27,12 @@ void SPI_SRAM_PUF_Stable_Output(uint32_t *Data);
 
 //Strong PUF模式
 void SPI_SRAM_PUF_STRONG(unsigned char* Messages,int len);
+
+//文件管理模式
+void SPI_SRAM_PUF_FILE(unsigned char* Infos,int len);
+
+//对文件的标签进行操作
+void SPI_SRAM_PUF_FILE_LABEL(uint32_t *Files,int len,uint32_t *helpData);
 #endif
 
 
