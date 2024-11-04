@@ -14,30 +14,16 @@
 #include "spi.h"
 #include "usbd_cdc_if.h"
 
-
-
 struct usb_aRxBuffer_t usb_data;
-
-
-void usb_send(uint8_t* Buf, uint16_t Len)
-{
-		while(CDC_Transmit_FS(Buf, Len) == USBD_BUSY)
-		osDelay(1);
-}
-
-
-
 
 //usb数据接收解析
 void task_usb_rx(void const * argument)
-{	
+{		
 		Status_t status = STATUS_DEFAULT;
     while(1){
         if( xQueueReceive(usbMsg, &usb_data, 1000) == pdPASS ){
 							check_command(&usb_data, usb_data.len, &status);
-							if (!flag) {  // 若不切换状态，则执行状态中操作
-									execute_state_action(status, &usb_data);
-							}
+							execute_state_action(status, &usb_data);
         }
 			}
   /* USER CODE END StartDefaultTask */

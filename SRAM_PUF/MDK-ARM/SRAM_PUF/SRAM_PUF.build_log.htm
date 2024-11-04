@@ -21,27 +21,57 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.6.0
 Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
-D:\Jobs\绿算-设备\SRAM_PUF\MDK-ARM\SRAM_PUF.uvprojx
+D:\Jobs\绿算-设备\11\SRAM-PUF-implementing\SRAM_PUF\MDK-ARM\SRAM_PUF.uvprojx
 Project File Date:  11/01/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'SRAM_PUF'
+compiling main.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+../Core/Src/main.c: 1 warning, 0 errors
+compiling usart.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+../Core/Src/usart.c: 1 warning, 0 errors
+compiling stm32f4xx_it.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+../Core/Src/stm32f4xx_it.c(222): warning:  #111-D: statement is unreachable
+    HAL_UART_IRQHandler(&huart1);
+../Core/Src/stm32f4xx_it.c: 2 warnings, 0 errors
+compiling freertos.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+../Core/Src/freertos.c: 1 warning, 0 errors
+compiling state_handler.c...
+SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+SRAM_PUF_FUNC\state_handler.c: 1 warning, 0 errors
+compiling task_usb_recv.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+..\USER\APP\task_usb_recv.c: 1 warning, 0 errors
 compiling command_handler.c...
-SRAM_PUF_FUNC\message_struct.h(26): warning:  #1-D: last line of file ends without a newline
+SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
   }statuInfo_union;
 SRAM_PUF_FUNC\command_handler.c: 1 warning, 0 errors
 compiling sram_func.c...
-SRAM_PUF_FUNC\message_struct.h(26): warning:  #1-D: last line of file ends without a newline
+SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
   }statuInfo_union;
-SRAM_PUF_FUNC\sram_func.c(63): warning:  #1-D: last line of file ends without a newline
+SRAM_PUF_FUNC\sram_func.c(311): warning:  #1-D: last line of file ends without a newline
   }
 SRAM_PUF_FUNC\sram_func.c: 2 warnings, 0 errors
+compiling task_uart1_recv.c...
+.\SRAM_PUF_FUNC\message_struct.h(28): warning:  #1-D: last line of file ends without a newline
+  }statuInfo_union;
+..\USER\APP\task_uart1_recv.c: 1 warning, 0 errors
 linking...
-Program Size: Code=29220 RO-data=832 RW-data=524 ZI-data=79716  
+Program Size: Code=33716 RO-data=1624 RW-data=532 ZI-data=78004  
 FromELF: creating hex file...
 After Build - User command #1: C:\Keil_v5\\ARM\ARMCC\bin\fromelf.exe --bin --output=debug\SRAM_PUF.bin SRAM_PUF\SRAM_PUF.axf
-"SRAM_PUF\SRAM_PUF.axf" - 0 Error(s), 3 Warning(s).
+"SRAM_PUF\SRAM_PUF.axf" - 0 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -64,7 +94,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

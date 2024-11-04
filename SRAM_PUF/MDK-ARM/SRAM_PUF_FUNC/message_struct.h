@@ -2,6 +2,8 @@
 #define fileInfoStartADD 4096;
 #define MAXUSERADD 4096;
 #define MAXFILEADD 268435456;//用int类型表示的256MB最大地址
+#include "main.h"
+
 struct userInfo{
 	uint32_t userLabel[4];
 	uint32_t firstAdd;

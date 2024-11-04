@@ -34,6 +34,7 @@ extern "C" {
 #include "FreeRTOS.h" 
 #include "task.h" 
 #include "semphr.h"
+
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

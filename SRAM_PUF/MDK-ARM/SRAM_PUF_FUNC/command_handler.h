@@ -7,8 +7,10 @@
 #include "status.h"
 #include "sram_func.h"
 #include "sram_spi.h"
+#include "state_handler.h"
 
-extern int flag;
+extern int flag1;
+extern statuInfo_union statuMessage;
 
 void check_command(struct usb_aRxBuffer_t* usb_data, int len, Status_t* status);
 

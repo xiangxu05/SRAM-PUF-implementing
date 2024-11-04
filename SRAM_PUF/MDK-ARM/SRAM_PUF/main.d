@@ -75,5 +75,8 @@ sram_puf\main.o: .\SRAM_PUF_FUNC\sha512.h
 sram_puf\main.o: .\SRAM_PUF_FUNC\message_struct.h
 sram_puf\main.o: ../USER/DRIVER/sram_spi.h
 sram_puf\main.o: .\SRAM_PUF_FUNC\state_handler.h
+sram_puf\main.o: .\SRAM_PUF_FUNC\command_handler.h
+sram_puf\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+sram_puf\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
 sram_puf\main.o: ../USB_DEVICE/App/usb_device.h
 sram_puf\main.o: ../Core/Inc/gpio.h

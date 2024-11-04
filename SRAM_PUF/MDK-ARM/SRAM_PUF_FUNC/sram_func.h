@@ -25,8 +25,6 @@ void SPI_SRAM_PUF_Init(void);//SRAM PUF初始化操作
 
 void SPI_SRAM_PUF_Output(uint32_t *sramData);//SRAM PUF输出函数
 
-void sram_source_Sram(int p, unsigned short* buf,int len,int time);//选取的SRAM单元位置上的原始值
-
 void SPI_SRAM_PUF_Stable_Output(uint32_t *Data);//读取SRAM PUF稳定输出
 
 void SPI_SRAM_PUF_STRONG(unsigned char* Messages,int len);//Strong PUF模式

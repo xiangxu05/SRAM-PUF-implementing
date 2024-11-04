@@ -10,7 +10,7 @@
 #include "cmsis_armcc.h"
 #include "command_handler.h"
 #include "state_handler.h"
-static int flag = 0;
+
 
 extern void task_usb_rx(void const * argument);
 void usb_send(uint8_t* Buf, uint16_t Len);

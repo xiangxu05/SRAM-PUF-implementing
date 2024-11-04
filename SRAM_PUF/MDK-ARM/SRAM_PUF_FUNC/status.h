@@ -11,6 +11,7 @@ typedef enum {
     STATUS_DELAY,
     STATUS_FILE,
     STATUS_STATU,
+		STATUS_DBINIT,
     STATUS_UNKNOWN = 255
 } Status_t;
 

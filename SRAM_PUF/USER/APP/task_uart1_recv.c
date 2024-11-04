@@ -45,80 +45,80 @@ void check_goto_iap(unsigned char* buf)
 
 //}
 
-#define FDB_LOG_TAG "[sample][tsdb]"
-static void lock(fdb_db_t db)
-{
-    __disable_irq();
-}
+//#define FDB_LOG_TAG "[sample][tsdb]"
+//static void lock(fdb_db_t db)
+//{
+//    __disable_irq();
+//}
 
-static void unlock(fdb_db_t db)
-{
-    __enable_irq();
-}
+//static void unlock(fdb_db_t db)
+//{
+//    __enable_irq();
+//}
 
 
-void test_flash_db()
-{
-		/* KVDB object */
-		static struct fdb_kvdb kvdb = { 0 };
-		static char buff[1024];
-		struct fdb_default_kv default_kv;
-		struct fdb_blob blob;
-		int temp_data = 36;
-	
+//void test_flash_db()
+//{
+//		/* KVDB object */
+//		static struct fdb_kvdb kvdb = { 0 };
+//		static char buff[1024];
+//		struct fdb_default_kv default_kv;
+//		struct fdb_blob blob;
+//		int temp_data = 36;
+//	
 
-		fdb_kvdb_control(&kvdb, FDB_KVDB_CTRL_SET_LOCK, (void *)lock);
-		fdb_kvdb_control(&kvdb, FDB_KVDB_CTRL_SET_UNLOCK, (void *)unlock);
-		fdb_err_t result = fdb_kvdb_init(&kvdb, "env", "fdb_kvdb1", &default_kv, NULL);
+//		fdb_kvdb_control(&kvdb, FDB_KVDB_CTRL_SET_LOCK, (void *)lock);
+//		fdb_kvdb_control(&kvdb, FDB_KVDB_CTRL_SET_UNLOCK, (void *)unlock);
+//		fdb_err_t result = fdb_kvdb_init(&kvdb, "env", "fdb_kvdb1", &default_kv, NULL);
 
-		if (result != FDB_NO_ERR) {
-				return;
-		}
-				
-		fdb_kv_print(&kvdb);
-		fdb_kv_set_blob(&kvdb, "temp1", fdb_blob_make(&blob, "temp1", sizeof("temp5")));
-		fdb_kv_set_blob(&kvdb, "temp2", fdb_blob_make(&blob, "temp2", sizeof("temp5")));
-		fdb_kv_set_blob(&kvdb, "temp3", fdb_blob_make(&blob, "temp3", sizeof("temp5")));
-		fdb_kv_set_blob(&kvdb, "temp4", fdb_blob_make(&blob, "temp4", sizeof("temp5")));
-		fdb_kv_set_blob(&kvdb, "temp5", fdb_blob_make(&blob, "temp5", sizeof("temp5")));
-		
-		FDB_INFO("get the 'boot_count' failed\n");
-		fdb_kv_get_blob(&kvdb, "temp1", fdb_blob_make(&blob, &buff, sizeof("temp5")));
-		if (blob.saved.len > 0) {
-				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
-		} else {
-				FDB_INFO("get the 'boot_count' failed\n");
-		}
-		
-		fdb_kv_get_blob(&kvdb, "temp2", fdb_blob_make(&blob, &buff, sizeof("temp5")));
-		if (blob.saved.len > 0) {
-				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
-		} else {
-				FDB_INFO("get the 'boot_count' failed\n");
-		}
-		
-		fdb_kv_get_blob(&kvdb, "temp3", fdb_blob_make(&blob, &buff, sizeof("temp5")));
-		if (blob.saved.len > 0) {
-				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
-		} else {
-				FDB_INFO("get the 'boot_count' failed\n");
-		}
-		
-		fdb_kv_get_blob(&kvdb, "temp4", fdb_blob_make(&blob, &buff, sizeof("temp5")));
-		if (blob.saved.len > 0) {
-				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
-		} else {
-				FDB_INFO("get the 'boot_count' failed\n");
-		}
-		
-		fdb_kv_get_blob(&kvdb, "temp5", fdb_blob_make(&blob, &buff, sizeof("temp5")));
-		if (blob.saved.len > 0) {
-				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
-				fdb_kv_del(&kvdb, "temp5");
-		} else {
-				FDB_INFO("get the 'boot_count' failed\n");
-		}
-}
+//		if (result != FDB_NO_ERR) {
+//				return;
+//		}
+//				
+//		fdb_kv_print(&kvdb);
+//		fdb_kv_set_blob(&kvdb, "temp1", fdb_blob_make(&blob, "temp1", sizeof("temp5")));
+//		fdb_kv_set_blob(&kvdb, "temp2", fdb_blob_make(&blob, "temp2", sizeof("temp5")));
+//		fdb_kv_set_blob(&kvdb, "temp3", fdb_blob_make(&blob, "temp3", sizeof("temp5")));
+//		fdb_kv_set_blob(&kvdb, "temp4", fdb_blob_make(&blob, "temp4", sizeof("temp5")));
+//		fdb_kv_set_blob(&kvdb, "temp5", fdb_blob_make(&blob, "temp5", sizeof("temp5")));
+//		
+//		FDB_INFO("get the 'boot_count' failed\n");
+//		fdb_kv_get_blob(&kvdb, "temp1", fdb_blob_make(&blob, &buff, sizeof("temp5")));
+//		if (blob.saved.len > 0) {
+//				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
+//		} else {
+//				FDB_INFO("get the 'boot_count' failed\n");
+//		}
+//		
+//		fdb_kv_get_blob(&kvdb, "temp2", fdb_blob_make(&blob, &buff, sizeof("temp5")));
+//		if (blob.saved.len > 0) {
+//				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
+//		} else {
+//				FDB_INFO("get the 'boot_count' failed\n");
+//		}
+//		
+//		fdb_kv_get_blob(&kvdb, "temp3", fdb_blob_make(&blob, &buff, sizeof("temp5")));
+//		if (blob.saved.len > 0) {
+//				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
+//		} else {
+//				FDB_INFO("get the 'boot_count' failed\n");
+//		}
+//		
+//		fdb_kv_get_blob(&kvdb, "temp4", fdb_blob_make(&blob, &buff, sizeof("temp5")));
+//		if (blob.saved.len > 0) {
+//				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
+//		} else {
+//				FDB_INFO("get the 'boot_count' failed\n");
+//		}
+//		
+//		fdb_kv_get_blob(&kvdb, "temp5", fdb_blob_make(&blob, &buff, sizeof("temp5")));
+//		if (blob.saved.len > 0) {
+//				FDB_INFO("get the 'temp_data' value is %d %s\n", temp_data,buff);
+//				fdb_kv_del(&kvdb, "temp5");
+//		} else {
+//				FDB_INFO("get the 'boot_count' failed\n");
+//		}
+//}
 
 
 

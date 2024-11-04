@@ -1,6 +1,7 @@
 #include "command_handler.h"
 #include <string.h>
 #include <stdio.h>
+#include <flashdb.h>
 
 // AT指令的定义
 #define AT_DEFAULT      "AT_default\r\n"
@@ -11,13 +12,20 @@
 #define AT_DELAY        "AT_delay\r\n"
 #define AT_FILE         "AT_File\r\n"
 #define AT_STATU        "AT_Statu\r\n"
+#define AT_DBINIT       "AT_initDB\r\n"
 
+statuInfo_union statuMessage;
+int flag1;
 
+void usb_send(uint8_t* Buf, uint16_t Len)
+{
+		while(CDC_Transmit_FS(Buf, Len) == USBD_BUSY)
+		osDelay(1);
+}
 
 // 指令处理函数的实现
 void handleDefaultMode(void) {
     printf("随机输出值模式\n");
-		
 }
 
 void handleInitMode(void) {
@@ -42,9 +50,9 @@ void handleStrongSramMode(void) {
 
 void handleSourceSramMode(void) {
     printf("获取SRAM单元位置上的原始值\n");
-		unsigned char buf[1024];
+		unsigned char buf[128];
     sram_read_random(0, buf, sizeof(buf), DELAY_TIME);
-		for(int i = 0 ; i < 1024 ; i++){
+		for(int i = 0 ; i < 128 ; i++){
 			printf("%x",buf[i]);
 		}
 }
@@ -59,8 +67,12 @@ void handleFileMode(void) {
 
 void handleStatuMode(Status_t* status) {
 		printf("查看状态");
-//    statuMessage.data.status = *status;
-//    usb_send(statuMessage.bytes, sizeof(statuMessage.bytes));
+    statuMessage.data.status = *status;
+    usb_send(statuMessage.bytes, sizeof(statuMessage.bytes));
+}
+
+void handleDBInitMode(void) {
+		printf("初始化DB数据库");
 }
 
 // 命令映射表，将命令字符串与对应处理函数和状态关联
@@ -78,7 +90,8 @@ CommandHandler commandHandlers[] = {
     {AT_SOURCE_SRAM, handleSourceSramMode, STATUS_SOURCE_SRAM},
     {AT_DELAY, handleDelayMode, STATUS_DELAY},
     {AT_FILE, handleFileMode, STATUS_FILE},
-    {AT_STATU, (void (*)(void))handleStatuMode, STATUS_STATU}
+    {AT_STATU, (void (*)(void))handleStatuMode, STATUS_STATU},
+		{AT_DBINIT, handleDBInitMode, STATUS_DBINIT}
 };
 const int commandHandlerCount = sizeof(commandHandlers) / sizeof(CommandHandler);
 
@@ -90,16 +103,18 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, Status_t* status) 
     }
 
     unsigned char *command = usb_data->buf;
-		flag = 1;
+		flag1 = 1;
 		
     // 遍历命令处理映射表，找到对应指令并执行
     for (int i = 0; i < commandHandlerCount; i++) {
         if (strncmp((const char*)command, commandHandlers[i].command, len) == 0) {
             commandHandlers[i].handler();
             *status = commandHandlers[i].nextStatus;
+						statuMessage.data.status = *status;
             return;
         }
     }
-		flag = 0;
+		
+		flag1 = 0;
 //    *status = STATUS_UNKNOWN;  // 未知命令
 }

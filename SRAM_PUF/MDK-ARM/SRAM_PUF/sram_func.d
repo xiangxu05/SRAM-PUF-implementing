@@ -72,3 +72,6 @@ sram_puf\sram_func.o: ../USER/APP/task_usb_recv.h
 sram_puf\sram_func.o: .\SRAM_PUF_FUNC\status.h
 sram_puf\sram_func.o: .\SRAM_PUF_FUNC\sram_func.h
 sram_puf\sram_func.o: .\SRAM_PUF_FUNC\state_handler.h
+sram_puf\sram_func.o: .\SRAM_PUF_FUNC\command_handler.h
+sram_puf\sram_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+sram_puf\sram_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
