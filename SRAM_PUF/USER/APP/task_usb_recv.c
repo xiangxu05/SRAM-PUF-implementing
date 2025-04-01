@@ -6,7 +6,7 @@
 #include "task_usb_recv.h"
 
 
-static unsigned char status = 5;
+static unsigned char status = 6;
 static int flag = 0;
 struct usb_aRxBuffer_t usb_data;
 static unsigned short buf_random[64];
@@ -77,6 +77,7 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
         output("执行PUF初始化操作\n");
         *status = STATUS_INIT;  // 设置 status 为 1
 				SPI_SRAM_PUF_Init();
+				*status = STATUS_FILE;
     } else if (strncmp((const char*)command, AT_SOURCE, len) == 0) {
 			output("查看helpdata值:\n");
 			uint32_t tmp[32];
@@ -87,7 +88,7 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
 				sprintf(buf + strlen((const char*)buf),"%08x",tmp[i]);
 			}
 			usb_send((unsigned char*)buf,strlen((const char*)buf));
-        *status = STATUS_SOURCE;  // 设置 status 为 2
+      *status = STATUS_SOURCE;  // 设置 status 为 2
     } else if (strncmp((const char*)command, AT_STRONG_SRAM, len) == 0) {
         output("执行强PUF模式，输出1024位\n");
         *status = STATUS_STRONG_SRAM;  // 设置 status 为 3
@@ -102,14 +103,18 @@ void check_command(struct usb_aRxBuffer_t* usb_data, int len, unsigned char* sta
 				output("文件管理模式\n");
 				output("说明：此模式输入格式为(用户标签，文件名标签)，输出对应的KEY");
 				*status = STATUS_FILE;
-		}else {
+		} else if(strncmp((const char*)command, AT_STATU, strlen(AT_STATU)) == 0){
+				statuMessage.data.status = *status;
+				usb_send(statuMessage.bytes,sizeof(statuMessage.bytes));
+		}
+		else {
 				flag = 0;
         // 如果命令不匹配任何已知指令
         //output("未知命令\n");
         //*status = STATUS_UNKNOWN;  // 设置 status 为 255，表示未知命令
     }
-		
 }
+
 //usb数据接收解析
 static char buf_random_str[20*1024];
 void task_usb_rx(void const * argument)
@@ -123,37 +128,33 @@ void task_usb_rx(void const * argument)
 					//usb_send(usb_data.buf, usb_data.len);
 					*/
 					
-					check_command(&usb_data,usb_data.len,&status);
-					if(!flag){
+					check_command(&usb_data,usb_data.len,&status);//检查是否切换状态
+					
+					if(!flag){//若不切换状态，则执行状态中操作
 					switch(status){
-						case 0:{
+						case 0:{//默认回传模式
 							usb_send(usb_data.buf, usb_data.len);
 							break;
 						}
-						case 1:{
+						case 1:{//PUF初始化操作
 							break;
 						}
-						case 2:{
+						case 2:{//查看HelpData值
 							break;
 						}
-						case 3:{
+						case 3:{//强PUF模式
 							SPI_SRAM_PUF_STRONG(usb_data.buf,usb_data.len);
 							break;
 						}
-						case 4:{
+						case 4:{//SRAM单元上的原始值
 							break;
 						}
-						case 5:{
+						case 5:{//时延模式
 							int delay_time = 1;
 							if(convert_usb_data_to_int(&usb_data,&delay_time)==-1){
 								delay_time = 100;
 							}
-							//char char_time[100];
-							//sprintf(char_time,"%d",delay_time);
-							//output(char_time);
-							
 							sram_read_random(0, buf_random,sizeof(buf_random)/sizeof(buf_random[0]),delay_time);
-
 							buf_random_str[0] = 0;		
 							for(int i = 0;i < sizeof(buf_random)/sizeof(buf_random[0]);i++){
 								sprintf(buf_random_str + strlen((const char*)buf_random_str),"%04x",(int)buf_random[i]);
@@ -161,26 +162,17 @@ void task_usb_rx(void const * argument)
 							usb_send((unsigned char*)buf_random_str,strlen((const char*)buf_random_str));
 							break;
 						}
-						case 6:{
+						case 6:{//文件控制模式
 							SPI_SRAM_PUF_FILE(usb_data.buf,usb_data.len);
+							break;
+						}
+						case 7:{
 							break;
 						}
 						default:
 							break;
 					}
 				}
-					/*
-					int delay_time = 1;
-					if(convert_usb_data_to_int(&usb_data,&delay_time)!=0){
-						delay_time = 100;
-					}
-					sram_read_random(0, buf_random,sizeof(buf_random)/sizeof(buf_random[0]),delay_time);
-					buf_random_str[0] = 0;		
-					for(int i = 0;i < sizeof(buf_random)/sizeof(buf_random[0]);i++){
-						sprintf(buf_random_str + strlen((const char*)buf_random_str),"%04x",(int)buf_random[i]);
-					}
-					usb_send((unsigned char*)buf_random_str,strlen((const char*)buf_random_str));
-        }  */
       else{
 						
       }

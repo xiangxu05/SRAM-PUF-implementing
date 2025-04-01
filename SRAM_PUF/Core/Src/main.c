@@ -64,6 +64,7 @@ QueueHandle_t   usart1Msg;
 QueueHandle_t   usbMsg;
 uint8_t version_data[100]   = __DATE__;
 uint8_t version_time[100]   = __TIME__;
+statuInfo_union statuMessage;
 /* USER CODE END 0 */
 
 /**
@@ -83,7 +84,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+	memset(&statuMessage,0,sizeof(statuMessage));
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -99,13 +100,14 @@ int main(void)
   MX_SPI2_Init();
 	//MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
-	
 	W25_SPI_FLASH_WPH();
 	W25_SPI_FLASH_RSTH();
 	W25_SPI_FLASH_CSH();
 	SRAM_PWR_H();
 	usart1Msg	= xQueueCreate(2,sizeof(struct urt_aRxBuffer_t));
 	usbMsg	=   xQueueCreate(2,sizeof(struct usb_aRxBuffer_t));
+	
+
 	/*
 	printf("\r\nAPP version************************   \r\n");
 	printf("%s",version_data);
@@ -113,7 +115,7 @@ int main(void)
 	printf("\r\n***********************************   \r\n");
 	*/
   /* USER CODE END 2 */
-
+	
   /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
   /* Start scheduler */

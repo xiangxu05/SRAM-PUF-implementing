@@ -5,8 +5,11 @@
 #include "bch.h"
 #include "w25xx_SPI.h"
 #include "sha512.h"
+#include "main.h"
 
 #define DELAY_TIME 100
+extern statuInfo_union statuMessage;
+
 void sram_pin_init(void);
 void sram_write(int p,unsigned short* buf,int len);
 void sram_read(int p, unsigned short* buf,int len);

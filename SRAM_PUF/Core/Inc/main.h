@@ -169,6 +169,19 @@ struct fileInfo{
 	uint32_t helpData[32];
 	uint32_t nextAdd;
 };
+struct statuInfo{
+	double userSpace;
+	double fileSpace;
+	uint8_t status;
+	uint32_t userLabel[4];
+	uint32_t fileLabel[4];
+	uint32_t key[32];
+};
+typedef union{
+	struct statuInfo data;
+	uint8_t bytes[sizeof(struct statuInfo)];
+}statuInfo_union;
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

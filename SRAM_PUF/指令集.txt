@@ -1,0 +1,12 @@
+AT_default 默认的回传模式
+AT_init 初始化PUF/未初始化时辅助数据为重复值，存储一个原始的随机值，同时对用户信息表进行重置，执行后自动进入文件模式
+AT_source 查看helpdata值
+AT_strongSram 任意位输入对应1024位输出，类似强PUF
+AT_sourceSram 选取的SRAM单元位置上的原始值
+AT_delay 时延测试模式，输入数字t（ms），默认为100ms
+AT_File 对用户文件标签进行管理，生成对应密钥，实现密钥管理，输入{ uint32_t userLabel[4] , uint32_t fileLabel[4] }。
+若存在该用户及该文件时，则取helpdata恢复密钥；不存在用户或文件，则生成helpdata和密钥。
+AT_Statu 查看当前状态与密钥
+
+22222211111111111111112342243244
+
